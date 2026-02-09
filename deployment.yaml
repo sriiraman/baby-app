@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baby-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: baby-app
+  template:
+    metadata:
+      labels:
+        app: baby-app
+    spec:
+      containers:
+      - name: baby-app
+        image: https://github.com/sriiraman/baby-app
+        ports:
+        - containerPort: 3000

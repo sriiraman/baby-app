@@ -1,0 +1,22 @@
+trigger:
+- main
+
+pool:
+  name: mynew-local-agent   # your agent pool name
+
+steps:
+
+- task: Docker@2
+  displayName: Build and Push Image
+  inputs:
+    containerRegistry: dockerhub
+    repository: https://github.com/sriiraman/baby-app
+    command: buildAndPush
+    Dockerfile: Dockerfile
+    tags: |
+      latest
+
+- script: |
+    kubectl apply -f deployment.yaml
+    kubectl apply -f service.yaml
+  displayName: Deploy to Minikube
