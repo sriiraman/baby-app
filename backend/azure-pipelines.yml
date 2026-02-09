@@ -10,7 +10,7 @@ steps:
   displayName: Login to Docker Hub
   inputs:
     command: login
-    containerRegistry: 'DockerHubConnection'
+    containerRegistry: 'newone'
 
 echo ===== DOCKERFILE USED BY PIPELINE =====
 type $(Build.SourcesDirectory)\Dockerfile
@@ -23,10 +23,10 @@ rd /s /q $(Build.SourcesDirectory)
   displayName: Build and push image
   inputs:
     command: buildAndPush
-    repository: 'nidhiproject/myapp'
+    repository: 'sriiraman/baby-app'
     tags: 'latest'
     Dockerfile: '**/Dockerfile'
-    containerRegistry: 'DockerHubConnection'
+    containerRegistry: 'newone'
     tags: |
       latest
 
