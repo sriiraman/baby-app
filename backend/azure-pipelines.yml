@@ -1,36 +1,29 @@
 trigger:
-- main
+- main   # or master branch
 
 pool:
-  name: mynew-local-agent   # your agent pool name
+  vmImage: 'ubuntu-latest'
+
+variables:
+  imageName: 'sriiraman/baby-app'  # replace with your Docker Hub username/repo
 
 steps:
+# 1️⃣ Checkout the code
+- task: Checkout@1
 
+# 2️⃣ Login to Docker Hub
 - task: Docker@2
-  displayName: Login to Docker Hub
+  displayName: 'Login to Docker Hub'
   inputs:
     command: login
-    containerRegistry: 'newone'
+    containerRegistry: 'newone'  # Make sure you create this service connection in Azure DevOps
 
-echo ===== DOCKERFILE USED BY PIPELINE =====
-type $(Build.SourcesDirectory)\Dockerfile
-echo =====================================
-
-echo CLEANING AGENT
-rd /s /q $(Build.SourcesDirectory)
-
+# 3️⃣ Build and push the Docker image
 - task: Docker@2
-  displayName: Build and push image
+  displayName: 'Build and Push Docker Image'
   inputs:
     command: buildAndPush
-    repository: 'sriiraman/baby-app'
-    tags: 'latest'
+    repository: '$(imageName)'
     Dockerfile: '**/Dockerfile'
+    tags: 'latest'
     containerRegistry: 'newone'
-    tags: |
-      latest
-
-- script: |
-    kubectl apply -f deployment.yaml
-    kubectl apply -f service.yaml
-  displayName: Deploy to Minikube
