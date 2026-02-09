@@ -1,13 +1,3 @@
-FROM node:18
-
-WORKDIR /app
-
-COPY package.json ./
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["node", "app.js"]
-
+COPY package*.json ./   # copy package files first
+RUN npm install          # install dependencies
+COPY . .                 # copy everything else
