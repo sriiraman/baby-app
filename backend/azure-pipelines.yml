@@ -16,7 +16,7 @@ steps:
   displayName: 'Login to Docker Hub'
   inputs:
     command: login
-    containerRegistry: 'newone'  # Make sure you create this service connection in Azure DevOps
+    containerRegistry: 'DockerHubConnection'  # Make sure you create this service connection in Azure DevOps
 
 # 3️⃣ Build and push the Docker image
 - task: Docker@2
@@ -26,4 +26,4 @@ steps:
     repository: '$(imageName)'
     Dockerfile: '**/Dockerfile'
     tags: 'latest'
-    containerRegistry: 'newone'
+    containerRegistry: 'DockerHubConnection'
